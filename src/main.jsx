@@ -2,11 +2,31 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import HomePage from "./pages/HomePage";
 import React from "react";
+import ThreadPage from "./pages/ThreadPage";
+import CreatePage from "./pages/CreatePage";
+import RatingPage from "./pages/RatingPage";
+import RatingViewPage from "./pages/RatingViewPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
+  },
+  {
+    path: "/thread",
+    element: <ThreadPage />,
+  },
+  {
+    path: "/create",
+    element: <CreatePage />,
+  },
+  {
+    path: "/rating",
+    element: <RatingPage />,
+  },
+  {
+    path: "/ratingview",
+    element: <RatingViewPage />,
   },
 ]);
 

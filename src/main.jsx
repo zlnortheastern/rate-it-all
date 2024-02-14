@@ -6,11 +6,13 @@ import ThreadPage from "./pages/ThreadPage";
 import CreatePage from "./pages/CreatePage";
 import RatingPage from "./pages/RatingPage";
 import RatingViewPage from "./pages/RatingViewPage";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
+    errorElement: <ErrorPage/>,
   },
   {
     path: "/thread",

@@ -5,10 +5,10 @@ export default class Thread {
   ratingObjects = [];
 
   constructor(tag = [], title = "N/A", threadImage = "imageNotFound.jpg", description) {
-    this.tag = tag;
-    this.title = title;
+    this.threadTag = tag;
+    this.threadTitle = title;
     this.threadImage = threadImage;
-    this.description = description;
+    this.threadDescription = description;
   }
 
   addRatingObject(name, image, introduction){

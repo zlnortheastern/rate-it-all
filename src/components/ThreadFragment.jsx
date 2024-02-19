@@ -24,7 +24,7 @@ export default class ThreadFragment extends Component {
           </div>
           <div className="col p-1">
             <div className="row align-items-center">
-              {this.props.thread.objects.map((object, index) => (
+              {this.props.thread.objects.slice(0, 3).map((object, index) => (
                 <HighRatingObject object={object} key={index} />
               ))}
             </div>

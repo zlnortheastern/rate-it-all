@@ -11,7 +11,7 @@ export default class ThreadFragment extends Component {
             <img
               src={this.props.thread.threadImage}
               className="img-fluid img-thumbnail"
-              style={{ maxHeight: 200, maxWidth: 180 }}
+              style={{ height: 200, width: 180 }}
             />
           </div>
           <div className="col-md-5 border-end">

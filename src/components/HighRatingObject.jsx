@@ -8,7 +8,7 @@ export default class HighRatingObject extends Component {
         <img
           src={this.props.object.objectImage}
           className="img-fluid"
-          style={{ maxHeight: 150, maxWidth: 120 }}
+          style={{ height: 150, width: 120 }}
         />
         <p>9.2</p>
       </div>

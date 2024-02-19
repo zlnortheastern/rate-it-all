@@ -17,6 +17,8 @@ export default class App extends Component {
     this.state = {
       threads:[],
       currentThread:{},
+      currentObject:{},
+      currentThreadID:"",
     };
   }
 
@@ -33,6 +35,11 @@ export default class App extends Component {
     this.setState({currentThread:{id, thread}});
   };
 
+  selectView = ({threadID, object}) =>{
+    this.setState({currentObject:object});
+    this.setState({currentThreadID:threadID});
+    console.log(JSON.stringify(object));
+  };
   render() {
 
     const router = createBrowserRouter([
@@ -43,17 +50,15 @@ export default class App extends Component {
       },
       {
         path: "thread/:threadID",
-        element: <ThreadPage thread={this.state.currentThread}/>,
-        children: [
-          {
-            path: "rating/:objectID",
-            element: <RatingPage />,
-          },
-          {
-            path: "ratingview/:objectID",
-            element: <RatingViewPage />,
-          },
-        ]
+        element: <ThreadPage thread={this.state.currentThread} onClickView={this.selectView}/>,
+      },
+      {
+        path: "thread/:threadID/rating/:objectID",
+        element: <RatingPage />,
+      },
+      {
+        path: "thread/:threadID/ratingview/:objectID",
+        element: <RatingViewPage currentThreadID={this.state.currentThreadID} object={this.state.currentObject}/>,
       },
       {
         path: "/create",

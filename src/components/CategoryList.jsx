@@ -40,7 +40,7 @@ export default class CategoryList extends Component {
               defaultValue=""
               aria-label="..."
             />
-            TV
+            TV Show
           </li>
           <li className="list-group-item">
             <input

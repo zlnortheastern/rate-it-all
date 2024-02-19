@@ -11,8 +11,8 @@ export default class Thread {
     this.description = description;
   }
 
-  addRatingObject(){
-    this.ratingObjects.push(new RatingObject());
+  addRatingObject(name, image, introduction){
+    this.ratingObjects.push(new RatingObject(name, image, introduction));
   }
 
   getTags() {

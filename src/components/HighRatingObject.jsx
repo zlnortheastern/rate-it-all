@@ -1,12 +1,13 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 export default class HighRatingObject extends Component {
   render() {
     return (
       <div className="col text-center">
         <img
-          src="https://thispersondoesnotexist.com/"
-          className="img-thumbnail"
+          src={this.props.object.objectImage}
+          className="img-fluid"
           style={{ maxHeight: 150, maxWidth: 120 }}
         />
         <p>9.2</p>
@@ -14,3 +15,12 @@ export default class HighRatingObject extends Component {
     );
   }
 }
+
+HighRatingObject.propTypes = {
+  object: PropTypes.shape({
+    objectName: PropTypes.string,
+    objectImage: PropTypes.string.isRequired,
+    introduction: PropTypes.string.isRequired,
+    ratings: PropTypes.object,
+  })
+};

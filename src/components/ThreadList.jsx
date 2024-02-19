@@ -25,13 +25,7 @@ ThreadList.propTypes = {
       threadImage: PropTypes.string.isRequired,
       threadTitle: PropTypes.string.isRequired,
       threadDescription: PropTypes.string.isRequired,
-      objects: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string,
-          objectImage: PropTypes.string.isRequired,
-          introduction: PropTypes.string.isRequired,
-        })
-      ),
+      objects: PropTypes.array,
     })
   ),
 };

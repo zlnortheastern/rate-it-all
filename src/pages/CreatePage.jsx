@@ -16,6 +16,7 @@ export default class CreatePage extends Component {
   onCreateThread = (threadData) => {
     const { threadTitle, threadTag, threadImage, threadDescription, objects } = threadData;
     this.threadManager.addThread(threadTag, threadTitle, threadImage, threadDescription, objects);
+    this.threadManager.addThreadToDB({ threadTitle, threadTag, threadImage, threadDescription, objects });
     console.log("Thread Data:",JSON.stringify(objects));
     this.setState({ redirectToHome: true });
   };

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import HighRatingObject from "./HighRatingObject";
+import PropTypes from "prop-types";
 
 export default class ThreadFragment extends Component {
   render() {
@@ -8,25 +9,24 @@ export default class ThreadFragment extends Component {
         <div className="row g-0">
           <div className="col-md-2 text-center">
             <img
-              src="https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              src={this.props.thread.threadImage}
               className="img-fluid img-thumbnail"
               style={{ maxHeight: 200, maxWidth: 180 }}
             />
           </div>
           <div className="col-md-5 border-end">
             <div className="card-body">
-              <h5 className="card-title">Card title</h5>
+              <h5 className="card-title">{this.props.thread.threadTitle}</h5>
               <p className="card-text">
-                This is a wider card with supporting text below as a natural lead-in
-                to additional content. This content is a little bit longer.
+                {this.props.thread.threadDescription}
               </p>
             </div>
           </div>
           <div className="col p-1">
             <div className="row align-items-center">
-              <HighRatingObject />
-              <HighRatingObject />
-              <HighRatingObject />
+              {this.props.thread.objects.map((object, index) => (
+                <HighRatingObject object={object} key={index} />
+              ))}
             </div>
           </div>
           <div className="container">
@@ -37,3 +37,20 @@ export default class ThreadFragment extends Component {
     );
   }
 }
+
+ThreadFragment.propTypes = {
+  thread: PropTypes.shape({
+    id: PropTypes.number,
+    threadTag: PropTypes.string.isRequired,
+    threadImage: PropTypes.string.isRequired,
+    threadTitle: PropTypes.string.isRequired,
+    threadDescription: PropTypes.string.isRequired,
+    objects: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        objectImage: PropTypes.string.isRequired,
+        introduction: PropTypes.string.isRequired,
+      })
+    ),
+  })
+};

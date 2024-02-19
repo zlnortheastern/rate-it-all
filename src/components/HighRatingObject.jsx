@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import {FaStar} from "react-icons/fa";
 
 export default class HighRatingObject extends Component {
   render() {
@@ -8,9 +9,9 @@ export default class HighRatingObject extends Component {
         <img
           src={this.props.object.objectImage}
           className="img-fluid"
-          style={{ height: 150, width: 120 }}
+          style={{ height: 150, width: 130 }}
         />
-        <p>9.2</p>
+        <p><FaStar color="#FFC107" size={15}/>  {this.props.object.averageRating}</p>
       </div>
     );
   }
@@ -18,9 +19,10 @@ export default class HighRatingObject extends Component {
 
 HighRatingObject.propTypes = {
   object: PropTypes.shape({
-    objectName: PropTypes.string,
+    objectName: PropTypes.string.isRequired,
     objectImage: PropTypes.string.isRequired,
     introduction: PropTypes.string.isRequired,
-    ratings: PropTypes.object,
+    averageRating: PropTypes.number.isRequired,
+    ratings: PropTypes.array,
   })
 };

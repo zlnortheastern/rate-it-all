@@ -53,9 +53,8 @@ export default class MyDBFirebase {
     const threads = [];
 
     for (let doc of res.docs) {
-      threads.push(doc.data());
+      threads.push({id:doc.id, thread:doc.data()});
       console.log("getThreadss() res", doc.data());
-      console.log("getThreadss() res", doc.data().RatingObjects);
     }
 
     return threads;

@@ -1,29 +1,11 @@
 import React, { Component } from "react";
 import BaseTemplate from "../templates/BaseTemplate";
 import CategoryList from "../components/CategoryList";
-import ThreadList from "../components/ThreadList";
-import ThreadManager from "../models/ThreadManager";
+import PropTypes from "prop-types";
+import ThreadFragment from "../components/ThreadFragment";
 
 
 export default class HomePage extends Component {
-  constructor(props) {
-    super(props);
-    this.threadManager = new ThreadManager();
-
-    this.state = {
-      threads:[],
-    };
-  }
-
-  refreshInteractions = async () => {
-    this.setState({ threads: await this.threadManager.getThreadFromDB()});
-  };
-
-  async componentDidMount() {
-    console.log("IndexPage.componentDidMount()", "Fetching interactions...");
-    await this.refreshInteractions();
-  }
-
   render() {
     return (
       <div>
@@ -36,7 +18,9 @@ export default class HomePage extends Component {
             </div>
             <div className="col">
               <div className="p-3">
-                <ThreadList threads={this.state.threads}/>
+                {this.props.threads.map((thread, index) => (
+                  <ThreadFragment thread={thread.thread} key={index} id={thread.id} onClickThread={this.props.onClickThread} />
+                ))}
               </div>
             </div>
           </div>
@@ -45,3 +29,13 @@ export default class HomePage extends Component {
     );
   }
 }
+
+HomePage.propTypes = {
+  onClickThread: PropTypes.func,
+  threads: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      thread: PropTypes.object.isRequired,
+    })
+  )
+};

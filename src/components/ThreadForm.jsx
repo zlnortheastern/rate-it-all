@@ -6,7 +6,7 @@ export default class ThreadForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      objects: [{objectName:"", objectImage:"", introduction:"", ratings:{},}],
+      objects: [{objectName:"", objectImage:"", introduction:"", ratings:[],}],
     };
   }
 
@@ -32,7 +32,8 @@ export default class ThreadForm extends Component {
 
 
   updateObject = (index, newData) => {
-    newData.ratings={};
+    newData.ratings=[];
+    newData.averageRating=0.0;
     this.setState((prevState) => ({
       objects: prevState.objects.map((obj, i) =>
         i === index ? { ...obj, ...newData } : obj

@@ -30,9 +30,6 @@ export default class App extends Component {
   async componentDidMount() {
     await this.refreshInteractions();
   }
-  async componentDidUpdate() {
-    await this.refreshInteractions();
-  }
   selectThread = ({ id, thread }) => {
     this.setState({ currentThread: { id, thread } });
   };

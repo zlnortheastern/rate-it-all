@@ -13,13 +13,13 @@ export default class MyDBFirebase {
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   firebaseConfig = {
-    apiKey: "AIzaSyCoqiBEpwAhBYKP2Fo0ArXy-HthH4XY73U",
-    authDomain: "rateitall-ee1d1.firebaseapp.com",
-    projectId: "rateitall-ee1d1",
-    storageBucket: "rateitall-ee1d1.appspot.com",
-    messagingSenderId: "191603399210",
-    appId: "1:191603399210:web:43e09e8fe5d788d844c153",
-    measurementId: "G-3SBTFYHBL9"
+    apiKey: "AIzaSyAIbW-MBjgcbNHUt8-mOvHlztOA3ga7axc",
+    authDomain: "rate-it-all-ed671.firebaseapp.com",
+    projectId: "rate-it-all-ed671",
+    storageBucket: "rate-it-all-ed671.appspot.com",
+    messagingSenderId: "899645713381",
+    appId: "1:899645713381:web:aeb0365a4e547b44465d0c",
+    measurementId: "G-TTL52L9ZW4"
   };
 
   // Firebase database

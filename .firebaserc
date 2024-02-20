@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "rateitall-ee1d1"
-  }
+    "default": "rate-it-all-ed671",
+    "staging": "rate-it-all-ed671"
+  },
+  "targets": {},
+  "etags": {}
 }

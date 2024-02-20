@@ -41,7 +41,6 @@ export default class MyDBFirebase {
       const threadCollection = collection(this.db, "Thread");
       const querySnapshot = await getDocs(threadCollection);
       const threads = querySnapshot.docs.map(doc => ({ id: doc.id, thread: doc.data() }));
-      console.log(JSON.stringify(threads));
       return threads;
     } catch (error) {
       console.error("Error getting threads:", error);

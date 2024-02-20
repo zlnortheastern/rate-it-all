@@ -24,6 +24,28 @@ Then install packages:
 npm install --save-dev prettier eslint-config-prettier eslint-plugin-react
 ```
 
+These are packages I used in this project:
+
+```plaintext
+npm install -g vite
+```
+
+```plaintext
+npm install react-router-dom
+```
+
+```plaintext
+npm install firebase
+```
+
+```plaintext
+npm install react-icons
+```
+
+```plaintext
+npm install prop-types
+```
+
 To run the application locally:
 
 ```plaintext

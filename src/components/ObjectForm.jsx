@@ -10,7 +10,7 @@ export default class ObjectForm extends Component {
   render() {
 
     return (
-      <div>
+      <div >
         <div className="mb-3">
           <label className="form-label">Object name</label>
           <input

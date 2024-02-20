@@ -27,21 +27,6 @@ export default class NavBar extends Component {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link active" to="/rating">
-                  Rating
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link active" to="/thread">
-                  Thread
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link active" to="/ratingview">
-                  RatingView
-                </Link>
-              </li>
             </ul>
             <div className="d-flex align-items-center">
               <button

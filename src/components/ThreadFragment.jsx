@@ -23,7 +23,7 @@ export default class ThreadFragment extends Component {
               />
             </Link>
           </div>
-          <div className="col-md-5 border-end">
+          <div className="col-md-4 border-end">
             <div className="card-body">
               <h5 className="card-title fw-bold">{this.props.thread.threadTitle}</h5>
               <p className="card-text">
@@ -31,7 +31,7 @@ export default class ThreadFragment extends Component {
               </p>
             </div>
           </div>
-          <div className="col p-1">
+          <div className="col-md-6 p-1">
             <div className="row align-items-center">
               {this.props.thread.objects.slice(0, 3).map((object, index) => (
                 <HighRatingObject object={object} key={index} />

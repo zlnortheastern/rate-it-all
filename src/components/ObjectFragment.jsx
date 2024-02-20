@@ -6,12 +6,18 @@ import { Link } from "react-router-dom";
 export default class ObjectFragment extends Component {
 
   handleClickView = () => {
-    this.props.onClickView({threadID:this.props.threadID, object: this.props.object});
+    this.props.onClickView({
+      threadID: this.props.threadID,
+      object: this.props.object
+    });
   };
 
   handleClickRate = () => {
-    // Call the onClickThread function passed from HomePage with the thread
-    //this.props.onClickObject();
+    this.props.onClickRate({
+      threadID: this.props.threadID,
+      object: this.props.object,
+      objectIndex: this.props.id
+    });
   };
 
   render() {
@@ -57,6 +63,7 @@ ObjectFragment.propTypes = {
   id: PropTypes.number,
   threadID: PropTypes.string,
   object: PropTypes.shape({
+    objectId: PropTypes.number,
     objectName: PropTypes.string,
     objectImage: PropTypes.string.isRequired,
     introduction: PropTypes.string.isRequired,

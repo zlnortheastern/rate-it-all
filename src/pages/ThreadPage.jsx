@@ -23,7 +23,8 @@ export default class ThreadPage extends Component {
                     key={index}
                     id={index}
                     threadID={this.props.thread.id}
-                    onClickView={this.props.onClickView} />
+                    onClickView={this.props.onClickView} 
+                    onClickRate={this.props.onClickRate}/>
                 ))}
 
               </div>
@@ -36,6 +37,7 @@ export default class ThreadPage extends Component {
 }
 
 ThreadPage.propTypes = {
+  onClickRate: PropTypes.func,
   onClickView: PropTypes.func,
   thread: PropTypes.shape({
     id: PropTypes.string,
@@ -44,7 +46,7 @@ ThreadPage.propTypes = {
       threadImage: PropTypes.string.isRequired,
       threadTitle: PropTypes.string.isRequired,
       threadDescription: PropTypes.string.isRequired,
-      objects: PropTypes.array
+      objects: PropTypes.array,
     }),
   }),
 };

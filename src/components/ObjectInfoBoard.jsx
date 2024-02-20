@@ -6,7 +6,7 @@ export default class ObjectInfoBoard extends Component {
   render() {
     return (
       <div className="border border-dark d-flex justify-content-center align-items-center" >
-        <div className="p-3 text-center">
+        <div className="p-3 text-center text-wrap text-break">
           <img src={this.props.object.objectImage}
             className="img-fluid img-thumbnail"
             style={{ height: 200, width: 180 }} />
@@ -21,6 +21,7 @@ export default class ObjectInfoBoard extends Component {
 }
 ObjectInfoBoard.propTypes = {
   object: PropTypes.shape({
+    objectId: PropTypes.number,
     objectName: PropTypes.string.isRequired,
     objectImage: PropTypes.string.isRequired,
     introduction: PropTypes.string.isRequired,

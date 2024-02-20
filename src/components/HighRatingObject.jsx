@@ -19,6 +19,7 @@ export default class HighRatingObject extends Component {
 
 HighRatingObject.propTypes = {
   object: PropTypes.shape({
+    objectId: PropTypes.number,
     objectName: PropTypes.string.isRequired,
     objectImage: PropTypes.string.isRequired,
     introduction: PropTypes.string.isRequired,

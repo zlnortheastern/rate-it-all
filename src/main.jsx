@@ -19,6 +19,7 @@ export default class App extends Component {
       currentThread:{},
       currentObject:{},
       currentThreadID:"",
+      currentObjectIndex:0,
     };
   }
 
@@ -38,8 +39,14 @@ export default class App extends Component {
   selectView = ({threadID, object}) =>{
     this.setState({currentObject:object});
     this.setState({currentThreadID:threadID});
-    console.log(JSON.stringify(object));
   };
+
+  selectRate = ({threadID, object, objectIndex}) =>{
+    this.setState({currentThreadID:threadID});
+    this.setState({currentObject:object});
+    this.setState({currentObjectIndex:objectIndex});
+  };
+
   render() {
 
     const router = createBrowserRouter([
@@ -50,11 +57,11 @@ export default class App extends Component {
       },
       {
         path: "thread/:threadID",
-        element: <ThreadPage thread={this.state.currentThread} onClickView={this.selectView}/>,
+        element: <ThreadPage thread={this.state.currentThread} onClickView={this.selectView} onClickRate={this.selectRate}/>,
       },
       {
         path: "thread/:threadID/rating/:objectID",
-        element: <RatingPage />,
+        element: <RatingPage currentThreadID={this.state.currentThreadID} object={this.state.currentObject} objectIndex={this.state.currentObjectIndex}/>,
       },
       {
         path: "thread/:threadID/ratingview/:objectID",

@@ -6,7 +6,7 @@ export default class ThreadInfoBoard extends Component {
     const thread = this.props.thread.thread;
     return (
       <div className="border border-dark d-flex justify-content-center align-items-center" >
-        <div className="p-3 text-center">
+        <div className="p-3 text-center text-wrap text-break">
           <img src={thread.threadImage}
             className="img-fluid img-thumbnail"
             style={{ height: 200, width: 180 }} />

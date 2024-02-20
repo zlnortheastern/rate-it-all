@@ -1,12 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-} from "firebase/firestore/lite";
+import { getFirestore, doc, updateDoc, collection, getDocs, addDoc, getDoc, } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -33,12 +28,7 @@ export default class MyDBFirebase {
   initializeFirebase() {
     // Initialize Firebase
     const app = initializeApp(this.firebaseConfig);
-    const analytics = getAnalytics(app);
-    console.log("Firebase initialized!", app, analytics);
-
-    const db = getFirestore(app);
-
-    this.db = db;
+    this.db = getFirestore(app);
   }
 
   async getThreads() {
@@ -47,32 +37,86 @@ export default class MyDBFirebase {
       return [];
     }
 
-    const threadCollection = collection(this.db, "Thread");
-
-    const res = await getDocs(threadCollection);
-    const threads = [];
-
-    for (let doc of res.docs) {
-      threads.push({id:doc.id, thread:doc.data()});
-      console.log("getThreadss() res", doc.data());
+    try {
+      const threadCollection = collection(this.db, "Thread");
+      const querySnapshot = await getDocs(threadCollection);
+      const threads = querySnapshot.docs.map(doc => ({ id: doc.id, thread: doc.data() }));
+      console.log(JSON.stringify(threads));
+      return threads;
+    } catch (error) {
+      console.error("Error getting threads:", error);
+      return [];
     }
-
-    return threads;
   }
 
   async addThread(thread) {
-    console.log("Add Thread", thread, this.db);
     if (!this.db) {
       console.error("Database not initialized!");
       return;
     }
 
-    const threadCollection = collection(this.db, "Thread");
-    const res = await addDoc(threadCollection, thread);
+    try {
+      const threadCollection = collection(this.db, "Thread");
+      const docRef = await addDoc(threadCollection, thread);
+      console.log("Thread added with ID: ", docRef.id);
+      return docRef.id;
+    } catch (error) {
+      console.error("Error adding thread:", error);
+      return null;
+    }
+  }
 
-    console.log("❤️⚠️📣 addInteraction() res", res, res.id);
+  async updateRating(threadId, objectId, newRating) {
+    if (!this.db) {
+      console.error("Database not initialized!");
+      return;
+    }
 
+    try {
+      const threadRef = doc(this.db, "Thread", threadId);
+      const threadDoc = await getDoc(threadRef);
 
-    return res;
+      if (!threadDoc.exists()) {
+        console.error("Thread not found!");
+        return;
+      }
+
+      const threadData = threadDoc.data();
+
+      // Find the object within the thread
+      const objectIndex = threadData.objects.findIndex(obj => obj.objectId === objectId);
+
+      if (objectIndex === -1) {
+        console.error("Object not found in thread!");
+        return;
+      }
+
+      // Update the ratings array of the object
+      threadData.objects[objectIndex].ratings.push(newRating);
+
+      // Extract rating values for calculation
+      const ratings = threadData.objects[objectIndex].ratings.map(rating => rating.rating);
+
+      if (ratings.length === 0) {
+        console.warn("Ratings array is empty. Cannot calculate average rating.");
+        return;
+      }
+
+      // Calculate the average rating
+      const totalRating = ratings.reduce((acc, curr) => acc + curr, 0);
+      const averageRating = totalRating / ratings.length;
+
+      // Update the averageRating attribute of the object
+      threadData.objects[objectIndex].averageRating = averageRating;
+
+      // Update the Firestore document
+      await updateDoc(threadRef, {
+        objects: threadData.objects // Update the objects array
+      });
+
+      console.log("Ratings and average rating updated successfully!");
+    } catch (error) {
+      console.error("Error updating ratings:", error);
+    }
   }
 }

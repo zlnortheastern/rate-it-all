@@ -32,6 +32,7 @@ export default class ThreadForm extends Component {
 
 
   updateObject = (index, newData) => {
+    newData.objectId=index;
     newData.ratings=[];
     newData.averageRating=0.0;
     this.setState((prevState) => ({

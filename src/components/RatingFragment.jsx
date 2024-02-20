@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { FaStar } from "react-icons/fa";
 
 export default class RatingFragment extends Component {
   render() {
@@ -9,8 +10,15 @@ export default class RatingFragment extends Component {
           Username
         </div>
         <div className="card-body">
-          <h5 className="card-title">Star part</h5>
-          <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          {[...Array(5)].map((star, i) => {
+            const starValue = i + 1;
+            return (
+              <label key={i}>
+                <FaStar color={starValue <= this.props.rating.rating/2 ? "#FFC107" : "E4E5E9"} size={20} />
+              </label>
+            );
+          })}
+          <p className="card-text">{this.props.rating.comment}</p>
         </div>
       </div>
     );

@@ -13,6 +13,12 @@ export default class ThreadManager {
   async getThreadFromDB(){
     return await this.myDB.getThreads();
   }
+
+  async addRatingToDB(threadId, objectId, newRating){
+    return await this.myDB.updateRating(threadId, objectId, newRating);
+  }
+
+
   addThread(tag, title, image, description, objects) {
     let thread = new Thread(tag, title, image, description);
     for (let object of objects) {

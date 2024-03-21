@@ -15,17 +15,17 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "thread/:threadID",
+    path: "thread/:threadId",
     element: <ThreadPage />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "thread/:threadID/rating/:objectID",
+    path: "thread/:threadId/rating/:objectId",
     element: <RatingPage />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "thread/:threadID/ratingview/:objectID",
+    path: "thread/:threadId/ratingview/:objectId",
     element: <RatingViewPage />,
     errorElement: <ErrorPage />,
   },

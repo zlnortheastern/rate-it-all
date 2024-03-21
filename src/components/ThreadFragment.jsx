@@ -3,12 +3,7 @@ import HighRatingObject from "./HighRatingObject";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-export default function ThreadFragment({thread, id}) {
-
-  const handleClick = () => {
-    // Call the onClickThread function passed from HomePage with the thread
-    //this.props.onClickThread({ id: id, thread: thread });
-  };
+export default function ThreadFragment({ thread, id }) {
 
   return (
     <div className="card m-2">
@@ -46,13 +41,12 @@ export default function ThreadFragment({thread, id}) {
 }
 
 ThreadFragment.propTypes = {
-  //onClickThread: PropTypes.func,
-  id: PropTypes.string.isRequired,
   thread: PropTypes.shape({
     threadTag: PropTypes.string.isRequired,
     threadImage: PropTypes.string.isRequired,
     threadTitle: PropTypes.string.isRequired,
     threadDescription: PropTypes.string.isRequired,
     objects: PropTypes.array,
+    id: PropTypes.string.isRequired,
   }),
 };

@@ -29,7 +29,7 @@ export default function HomePage() {
           <div className="col">
             <div className="p-3">
               {threads.map((thread, index) => (
-                <ThreadFragment thread={thread.thread} key={index} id={thread.id}/>
+                <ThreadFragment thread={thread} key={index} id={thread.id}/>
               ))}
             </div>
           </div>

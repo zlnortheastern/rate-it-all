@@ -21,32 +21,48 @@ export default function MyFirebase() {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const me = {};
-  const threadCollection = collection(db, "Thread");
+  const threadRef = collection(db, "Thread");
 
-  me.getThreads = async() => {
+  me.getThreads = async () => {
     if (!db) {
       console.error("Database not initialized!");
       return [];
     }
 
-    try {
-      const querySnapshot = await getDocs(threadCollection);
-      const threads = querySnapshot.docs.map(doc => ({ id: doc.id, thread: doc.data() }));
-      return threads;
-    } catch (error) {
-      console.error("Error getting threads:", error);
-      return [];
+    const querySnapshot = await getDocs(threadRef);
+    const threads = querySnapshot.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id
+    }));
+    return threads;
+  };
+
+  me.getThread = async (threadId) => {
+    if (!db) {
+      console.error("Database not initialized!");
+      return null;
+    }
+  
+    const threadDocRef = doc(db, "Thread", threadId);
+    const threadDocSnapshot = await getDoc(threadDocRef);
+  
+    if (threadDocSnapshot.exists()) {
+      const threadData = threadDocSnapshot.data();
+      return { ...threadData, id: threadDocSnapshot.id };
+    } else {
+      console.error("Thread not found!");
+      return null;
     }
   };
 
-  me.addThread = async(thread) => {
+  me.addThread = async (thread) => {
     if (!db) {
       console.error("Database not initialized!");
       return;
     }
 
     try {
-      const docRef = await addDoc(threadCollection, thread);
+      const docRef = await addDoc(threadRef, thread);
       console.log("Thread added with ID: ", docRef.id);
       return docRef.id;
     } catch (error) {

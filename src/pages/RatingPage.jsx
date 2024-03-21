@@ -4,15 +4,14 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ObjectInfoBoard from "../components/ObjectInfoBoard";
 import RatingForm from "../components/RatingForm";
-import ThreadManager from "../models/ThreadManager";
+import { myFirebase } from "../models/MyFirebase";
 
 export default class RatingPage extends Component {
   constructor(props){
     super(props);
-    this.threadManager = new ThreadManager();
   }
   onCreateRating = (ratingData)  => {
-    this.threadManager.addRatingToDB(this.props.currentThreadID, this.props.object.objectId, ratingData);
+    myFirebase.updateRating(this.props.currentThreadID, this.props.object.objectId, ratingData);
   };
   render() {
     return (

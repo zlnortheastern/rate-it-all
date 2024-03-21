@@ -5,14 +5,9 @@ import { getFirestore, doc, updateDoc, collection, getDocs, addDoc, getDoc, } fr
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-export default class MyDBFirebase {
-  constructor() {
-    this.initializeFirebase();
-  }
+export default function MyFirebase() {
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  firebaseConfig = {
+  const firebaseConfig = {
     apiKey: "AIzaSyAIbW-MBjgcbNHUt8-mOvHlztOA3ga7axc",
     authDomain: "rate-it-all-ed671.firebaseapp.com",
     projectId: "rate-it-all-ed671",
@@ -22,23 +17,19 @@ export default class MyDBFirebase {
     measurementId: "G-TTL52L9ZW4"
   };
 
-  // Firebase database
-  db = null;
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const me = {};
+  const threadCollection = collection(db, "Thread");
 
-  initializeFirebase() {
-    // Initialize Firebase
-    const app = initializeApp(this.firebaseConfig);
-    this.db = getFirestore(app);
-  }
-
-  async getThreads() {
-    if (!this.db) {
+  me.getThreads = async() => {
+    if (!db) {
       console.error("Database not initialized!");
       return [];
     }
 
     try {
-      const threadCollection = collection(this.db, "Thread");
       const querySnapshot = await getDocs(threadCollection);
       const threads = querySnapshot.docs.map(doc => ({ id: doc.id, thread: doc.data() }));
       return threads;
@@ -46,16 +37,15 @@ export default class MyDBFirebase {
       console.error("Error getting threads:", error);
       return [];
     }
-  }
+  };
 
-  async addThread(thread) {
-    if (!this.db) {
+  me.addThread = async(thread) => {
+    if (!db) {
       console.error("Database not initialized!");
       return;
     }
 
     try {
-      const threadCollection = collection(this.db, "Thread");
       const docRef = await addDoc(threadCollection, thread);
       console.log("Thread added with ID: ", docRef.id);
       return docRef.id;
@@ -63,16 +53,16 @@ export default class MyDBFirebase {
       console.error("Error adding thread:", error);
       return null;
     }
-  }
+  };
 
-  async updateRating(threadId, objectId, newRating) {
-    if (!this.db) {
+  me.updateRating = async (threadId, objectId, newRating) => {
+    if (!db) {
       console.error("Database not initialized!");
       return;
     }
 
     try {
-      const threadRef = doc(this.db, "Thread", threadId);
+      const threadRef = doc(db, "Thread", threadId);
       const threadDoc = await getDoc(threadRef);
 
       if (!threadDoc.exists()) {
@@ -117,5 +107,9 @@ export default class MyDBFirebase {
     } catch (error) {
       console.error("Error updating ratings:", error);
     }
-  }
+  };
+
+  return me;
 }
+
+export const myFirebase = new MyFirebase();

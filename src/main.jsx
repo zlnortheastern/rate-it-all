@@ -7,13 +7,12 @@ import RatingPage from "./pages/RatingPage";
 import RatingViewPage from "./pages/RatingViewPage";
 import ErrorPage from "./pages/ErrorPage";
 import React, { Component } from "react";
-import ThreadManager from "./models/ThreadManager";
+import { myFirebase } from "./models/MyFirebase";
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
-    this.threadManager = new ThreadManager();
     this.state = {
       threads: [],
       currentThread: {},
@@ -24,7 +23,7 @@ export default class App extends Component {
   }
 
   refreshInteractions = async () => {
-    this.setState({ threads: await this.threadManager.getThreadFromDB() });
+    this.setState({ threads: await myFirebase.getThreads() });
   };
 
   async componentDidMount() {

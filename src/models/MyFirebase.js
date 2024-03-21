@@ -42,13 +42,32 @@ export default function MyFirebase() {
       console.error("Database not initialized!");
       return null;
     }
-  
+
     const threadDocRef = doc(db, "Thread", threadId);
     const threadDocSnapshot = await getDoc(threadDocRef);
-  
+
     if (threadDocSnapshot.exists()) {
       const threadData = threadDocSnapshot.data();
       return { ...threadData, id: threadDocSnapshot.id };
+    } else {
+      console.error("Thread not found!");
+      return null;
+    }
+  };
+
+  me.getObject = async (threadId, objectId) => {
+    if (!db) {
+      console.error("Database not initialized!");
+      return null;
+    }
+
+    const threadDocRef = doc(db, "Thread", threadId);
+    const threadDocSnapshot = await getDoc(threadDocRef);
+
+    if (threadDocSnapshot.exists()) {
+      const threadData = threadDocSnapshot.data();
+      const objects = threadData.objects;
+      return objects[objectId];
     } else {
       console.error("Thread not found!");
       return null;

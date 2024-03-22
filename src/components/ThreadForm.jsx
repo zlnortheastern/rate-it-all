@@ -40,6 +40,19 @@ export default function ThreadForm({ onCreateThread }) {
     setObjects(prevObjects => [...prevObjects, {}]);
   };
 
+  const tagList = [
+    "Other",
+    "News",
+    "Film",
+    "TV Show",
+    "Music",
+    "Science",
+    "Technology",
+    "Game",
+    "Sport",
+    "E-sport",
+    "Life"
+  ];
   return (
     <form action="/" onSubmit={onCreate}>
       <div className="thread">
@@ -60,17 +73,9 @@ export default function ThreadForm({ onCreateThread }) {
             Choose a tag
           </label>
           <select name="threadTag" className="form-select" defaultValue="Other" ref={tagRef}>
-            <option value="Other">Other</option>
-            <option value="News">News</option>
-            <option value="Film">Film</option>
-            <option value="TV Show">TV Show</option>
-            <option value="Music">Music</option>
-            <option value="Science">Science</option>
-            <option value="Technology">Technology</option>
-            <option value="Game">Game</option>
-            <option value="Sport">Sport</option>
-            <option value="E-sport">E-sport</option>
-            <option value="Life">Life</option>
+            {tagList.map((tag, i) => 
+              <option value={tag} key={i}>{tag}</option>
+            )}
           </select>
         </div>
         <div className="mb-3">

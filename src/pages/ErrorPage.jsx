@@ -1,12 +1,10 @@
-import React, { Component } from "react";
+import React  from "react";
 
-export default class ErrorPage extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Error Page Not Found</h1>
-        <div>You are in the wrong page. Please try something else.</div>
-      </div>
-    );
-  }
+export default function ErrorPage() {
+  return (
+    <div>
+      <h1>Error Page Not Found</h1>
+      <div>You are in the wrong page. Please try something else.</div>
+    </div>
+  );
 }

@@ -1,7 +1,6 @@
-import React, { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BaseTemplate from "../templates/BaseTemplate";
 import { Link, useParams } from "react-router-dom";
-import PropTypes from "prop-types";
 import RatingFragment from "../components/RatingFragment";
 import ObjectInfoBoard from "../components/ObjectInfoBoard";
 import { myFirebase } from "../models/MyFirebase";
@@ -24,7 +23,7 @@ export default function RatingViewPage() {
       setObject(object);
     };
     getObject();
-  }, []);
+  }, [threadId, objectId]);
 
   return (
     <div>

@@ -1,15 +1,14 @@
-import React, { Component } from "react";
 import HighRatingObject from "./HighRatingObject";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-export default function ThreadFragment({ thread, id }) {
+export default function ThreadFragment({ thread }) {
 
   return (
     <div className="card m-2">
       <div className="row g-0">
         <div className="col-md-2 text-center">
-          <Link to={`thread/${id}`}>
+          <Link to={`thread/${thread.id}`}>
             <img
               src={thread.threadImage}
               className="img-fluid img-thumbnail"

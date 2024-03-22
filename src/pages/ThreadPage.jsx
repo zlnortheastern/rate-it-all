@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BaseTemplate from "../templates/BaseTemplate";
 import ThreadInfoBoard from "../components/ThreadInfoBoard";
 import ObjectFragment from "../components/ObjectFragment";
@@ -22,7 +22,7 @@ export default function ThreadPage() {
       setThread(thread);
     };
     getThread(threadId);
-  }, []);
+  }, [threadId]);
 
   return (
     <div>

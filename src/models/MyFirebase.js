@@ -80,14 +80,7 @@ export default function MyFirebase() {
       return;
     }
 
-    try {
-      const docRef = await addDoc(threadRef, thread);
-      console.log("Thread added with ID: ", docRef.id);
-      return docRef.id;
-    } catch (error) {
-      console.error("Error adding thread:", error);
-      return null;
-    }
+    return await addDoc(threadRef, thread);
   };
 
   me.updateRating = async (threadId, objectId, newRating) => {

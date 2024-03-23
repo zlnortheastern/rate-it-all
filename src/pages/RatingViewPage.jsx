@@ -19,7 +19,6 @@ export default function RatingViewPage() {
   useEffect(() => {
     const getObject = async() => {
       const object = await myFirebase.getObject(threadId, objectId);
-      console.log(JSON.stringify(object));
       setObject(object);
     };
     getObject();

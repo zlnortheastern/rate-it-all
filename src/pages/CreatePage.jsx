@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 export default function CreatePage() {
   const navigate = useNavigate();
-  const onCreateThread = (threadData) => {
+  const onCreateThread = async (threadData) => {
     const { threadTitle, threadTag, threadImage, threadDescription, objects } = threadData;
-    myFirebase.addThread({ threadTitle, threadTag, threadImage, threadDescription, objects });
+    await myFirebase.addThread({ threadTitle, threadTag, threadImage, threadDescription, objects });
     navigate("/");
   };
 

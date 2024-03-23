@@ -7,15 +7,30 @@ import { myFirebase } from "../models/MyFirebase";
 
 export default function HomePage() {
   const [threads, setThreads] = useState([]);
+  const [filteredThreads, setFilteredThreads] = useState([]);
 
   useEffect(() => {
     const getThreads = async () => {
       const threads = await myFirebase.getThreads();
       setThreads(threads);
+      setFilteredThreads(threads);
     };
 
     getThreads();
   }, []);
+
+  const handleCategoryChange = (selectedCategories) => {
+    if (selectedCategories.includes('All')) {
+      // If 'All' is selected, show all threads
+      setFilteredThreads(threads);
+    } else {
+      // Filter threads based on selected categories
+      const filtered = threads.filter(thread =>
+        selectedCategories.includes(thread.threadTag)
+      );
+      setFilteredThreads(filtered);
+    }
+  };
 
   return (
     <div>
@@ -23,12 +38,12 @@ export default function HomePage() {
         <div className="row gx-3">
           <div className="col-2">
             <div className="p-3">
-              <CategoryList />
+              <CategoryList onCategoryChange={handleCategoryChange}/>
             </div>
           </div>
           <div className="col">
             <div className="p-3">
-              {threads.map((thread, index) => (
+              {filteredThreads.map((thread, index) => (
                 <ThreadFragment thread={thread} key={index}/>
               ))}
             </div>

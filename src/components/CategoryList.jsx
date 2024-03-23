@@ -1,4 +1,35 @@
-export default function CategoryList() {
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+
+export default function CategoryList({ onCategoryChange }) {
+  const [checkedCategories, setCheckedCategories] = useState(['All']);
+
+  const handleCategoryChange = (category) => {
+    if (category === 'All') {
+      if (checkedCategories.includes('All')) {
+        setCheckedCategories([]);
+        onCategoryChange([]);
+      } else {
+        setCheckedCategories(['All']);
+        onCategoryChange(['All']);
+      }
+    } else {
+      const updatedCategories = checkedCategories.includes('All')
+        ? [category]
+        : checkedCategories.includes(category)
+        ? checkedCategories.filter((item) => item !== category)
+        : [...checkedCategories, category];
+      setCheckedCategories(updatedCategories);
+      onCategoryChange(updatedCategories.includes('All') ? [] : updatedCategories);
+    }
+  
+    // Automatically check "All" if all categories are unchecked
+    if (checkedCategories.length === 1 && checkedCategories.includes(category)) {
+      setCheckedCategories(['All']);
+      onCategoryChange(['All']);
+    }
+  };
+
   const categoryList = [
     "All",
     "News",
@@ -23,8 +54,9 @@ export default function CategoryList() {
             <input
               className="form-check-input me-1"
               type="checkbox"
-              defaultValue=""
-              aria-label="..."
+              checked={checkedCategories.includes(item)}
+              onChange={() => handleCategoryChange(item)}
+              disabled={item === 'All' && checkedCategories.includes('All')}
             />
             {item}
           </li>
@@ -33,3 +65,7 @@ export default function CategoryList() {
     </div>
   );
 }
+
+CategoryList.propTypes = {
+  onCategoryChange: PropTypes.func.isRequired,
+};

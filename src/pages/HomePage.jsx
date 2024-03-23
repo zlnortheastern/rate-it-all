@@ -3,11 +3,14 @@ import BaseTemplate from "../templates/BaseTemplate";
 import CategoryList from "../components/CategoryList";
 import ThreadFragment from "../components/ThreadFragment";
 import { myFirebase } from "../models/MyFirebase";
+import Pagination from "../fragments/Pagination";
 
 
 export default function HomePage() {
   const [threads, setThreads] = useState([]);
   const [filteredThreads, setFilteredThreads] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [threadsPerPage] = useState(5);
 
   useEffect(() => {
     const getThreads = async () => {
@@ -32,6 +35,14 @@ export default function HomePage() {
     }
   };
 
+  // Get current threads based on pagination
+  const indexOfLastThread = currentPage * threadsPerPage;
+  const indexOfFirstThread = indexOfLastThread - threadsPerPage;
+  const currentThreads = filteredThreads.slice(indexOfFirstThread, indexOfLastThread);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div>
       <BaseTemplate>
@@ -43,10 +54,15 @@ export default function HomePage() {
           </div>
           <div className="col">
             <div className="p-3">
-              {filteredThreads.map((thread, index) => (
+              {currentThreads.map((thread, index) => (
                 <ThreadFragment thread={thread} key={index}/>
               ))}
             </div>
+            <Pagination
+              itemsPerPage={threadsPerPage}
+              totalItems={filteredThreads.length}
+              paginate={paginate}
+            />
           </div>
         </div>
       </BaseTemplate>

@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 
 export default function ThreadFragment({ thread }) {
 
+  // Sort objects and retrieve top 3 objects
+  const sortedObjects = [...thread.objects].sort((a, b) => b.averageRating - a.averageRating);
+  const top3Objects = sortedObjects.slice(0,3);
   return (
     <div className="card m-2">
       <div className="row g-0">
@@ -26,7 +29,7 @@ export default function ThreadFragment({ thread }) {
         </div>
         <div className="col-md-6 p-1">
           <div className="row align-items-center">
-            {thread.objects.slice(0, 3).map((object, index) => (
+            {top3Objects.map((object, index) => (
               <HighRatingObject object={object} key={index} />
             ))}
           </div>

@@ -9,7 +9,7 @@ export default function HighRatingObject({object}) {
         className="img-fluid"
         style={{ height: 150, width: 130 }}
       />
-      <p><FaStar color="#FFC107" size={15} />  {object.averageRating}</p>
+      <p><FaStar color="#FFC107" size={15} />  {object.averageRating.toFixed(1)}</p>
     </div>
   );
 }

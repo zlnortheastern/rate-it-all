@@ -9,7 +9,7 @@ export default function ObjectInfoBoard ({object}) {
             className="img-fluid img-thumbnail"
             style={{ height: 200, width: 180 }} />
           <h4 className="fw-bold">{object.objectName}</h4>
-          <h5><FaStar color="#FFC107" size={16} />  {object.averageRating}</h5>
+          <h5><FaStar color="#FFC107" size={16} />  {object.averageRating.toFixed(1)}</h5>
           <hr className="hr" />
           <p>{object.introduction}</p>
         </div>

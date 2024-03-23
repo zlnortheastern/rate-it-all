@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-export default function ObjectFragment({objectId, threadId, object}) {
+export default function ObjectFragment({objectId, object}) {
 
 
   return (
@@ -43,7 +43,6 @@ export default function ObjectFragment({objectId, threadId, object}) {
 
 ObjectFragment.propTypes = {
   objectId: PropTypes.number.isRequired,
-  threadId: PropTypes.string.isRequired,
   object: PropTypes.shape({
     objectId: PropTypes.number.isRequired,
     objectName: PropTypes.string.isRequired,

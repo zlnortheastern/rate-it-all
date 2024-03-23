@@ -39,8 +39,7 @@ export default function ThreadPage() {
                 <ObjectFragment
                   object={object}
                   key={index}
-                  objectId={index}
-                  threadId={threadId}/>
+                  objectId={index}/>
               ))}
 
             </div>

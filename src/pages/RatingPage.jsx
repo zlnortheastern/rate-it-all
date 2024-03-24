@@ -26,8 +26,14 @@ export default function RatingPage() {
   }, [threadId, objectId]);
 
   const onCreateRating = async (ratingData) => {
-    await myFirebase.updateRating(threadId, +objectId, ratingData);
-    navigate(`/thread/${threadId}`);
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if(isLoggedIn){
+      ratingData.userName = localStorage.getItem('username');
+      await myFirebase.updateRating(threadId, +objectId, ratingData);
+      navigate(`/thread/${threadId}`);
+    }else{
+      alert("Please log in to post rating.");
+    }
   };
 
   return (

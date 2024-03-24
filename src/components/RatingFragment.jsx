@@ -5,7 +5,7 @@ export default function RatingFragment({rating}) {
   return (
     <div className="card m-2">
       <div className="card-header">
-        Username
+        {rating.userName || "Unknown User"}
       </div>
       <div className="card-body">
         {[...Array(5)].map((star, i) => {
@@ -25,5 +25,6 @@ RatingFragment.propTypes = {
   rating: PropTypes.shape({
     rating: PropTypes.number,
     comment: PropTypes.string,
+    userName: PropTypes.string,
   }),
 };

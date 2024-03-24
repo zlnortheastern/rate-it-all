@@ -1,9 +1,24 @@
 import PropTypes from "prop-types";
 import { FaStar } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function ObjectFragment({objectId, object}) {
+export default function ObjectFragment({ objectId, object }) {
+  const navigate = useNavigate();
+  // Function to handle clicking on view or rate buttons
+  const handleRateClick = () => {
+    // Check if user is logged in
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      alert("Please log in to rate this object.");
+    } else {
+      // Proceed with navigating to rate page
+      navigate(`rating/${objectId}`);
+    }
+  };
 
+  const handleViewClick = () => {
+    navigate(`ratingview/${objectId}`);
+  };
 
   return (
     <div className="card m-2">
@@ -28,17 +43,13 @@ export default function ObjectFragment({objectId, object}) {
         </div>
         <div className="col-md-2">
           <div className="row p-2 m-3">
-            <Link to={`ratingview/${objectId}`}>
-              <button className="btn btn-info m-2">View</button>
-            </Link>
-            <Link to={`rating/${objectId}`}>
-              <button className="btn btn-warning m-2">Rate</button>
-            </Link>
+            <button className="btn btn-info m-2" onClick={handleViewClick}>View</button>
+            <button className="btn btn-warning m-2" onClick={handleRateClick}>Rate</button>
           </div>
         </div>
       </div>
     </div >
-  ); 
+  );
 }
 
 ObjectFragment.propTypes = {

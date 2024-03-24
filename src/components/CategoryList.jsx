@@ -1,121 +1,71 @@
-import React, { Component } from "react";
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 
-export default class CategoryList extends Component {
-  render() {
-    return (
-      <div>
-        <h5 className="text-center">Category List</h5>
-        <ul className="list-group list-group-light">
-          <li className="list-group-item">
+export default function CategoryList({ onCategoryChange }) {
+  const [checkedCategories, setCheckedCategories] = useState(['All']);
+
+  const handleCategoryChange = (category) => {
+    if (category === 'All') {
+      if (checkedCategories.includes('All')) {
+        setCheckedCategories([]);
+        onCategoryChange([]);
+      } else {
+        setCheckedCategories(['All']);
+        onCategoryChange(['All']);
+      }
+    } else {
+      const updatedCategories = checkedCategories.includes('All')
+        ? [category]
+        : checkedCategories.includes(category)
+        ? checkedCategories.filter((item) => item !== category)
+        : [...checkedCategories, category];
+      setCheckedCategories(updatedCategories);
+      onCategoryChange(updatedCategories.includes('All') ? [] : updatedCategories);
+    }
+  
+    // Automatically check "All" if all categories are unchecked
+    if (checkedCategories.length === 1 && checkedCategories.includes(category)) {
+      setCheckedCategories(['All']);
+      onCategoryChange(['All']);
+    }
+  };
+
+  const categoryList = [
+    "All",
+    "News",
+    "Film",
+    "TV Show",
+    "Music",
+    "Science",
+    "Technology",
+    "Game",
+    "Sport",
+    "E-sport",
+    "Life",
+    "Other"
+  ];
+
+  return (
+    <div>
+      <h5 className="text-center">Category List</h5>
+      <ul className="list-group list-group-light">
+        {categoryList.map((item, i) =>
+          <li className="list-group-item" key={i}>
             <input
               className="form-check-input me-1"
               type="checkbox"
-              defaultValue=""
-              aria-label="..."
+              checked={checkedCategories.includes(item)}
+              onChange={() => handleCategoryChange(item)}
+              disabled={item === 'All' && checkedCategories.includes('All')}
             />
-            All
+            {item}
           </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            News
-          </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            Film
-          </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            TV Show
-          </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            Music
-          </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            Science
-          </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            Technology
-          </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            Game
-          </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            Sport
-          </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            E-sport
-          </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            Life
-          </li>
-          <li className="list-group-item">
-            <input
-              className="form-check-input me-1"
-              type="checkbox"
-              defaultValue=""
-              aria-label="..."
-            />
-            Other
-          </li>
-        </ul>
-      </div>
-    );
-  }
+        )}
+      </ul>
+    </div>
+  );
 }
+
+CategoryList.propTypes = {
+  onCategoryChange: PropTypes.func.isRequired,
+};

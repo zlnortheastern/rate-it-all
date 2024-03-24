@@ -1,53 +1,73 @@
-import React, { Component } from "react";
+import { useEffect, useState } from "react";
 import BaseTemplate from "../templates/BaseTemplate";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import { Link, useParams } from "react-router-dom";
 import RatingFragment from "../components/RatingFragment";
 import ObjectInfoBoard from "../components/ObjectInfoBoard";
+import { myFirebase } from "../models/MyFirebase";
+import Pagination from "../fragments/Pagination";
 
-export default class RatingViewPage extends Component {
-  render() {
-    return (
-      <div>
-        <BaseTemplate>
-          <div>
-            <div className="m-2">
-              <Link to={`/thread/${this.props.currentThreadID}`}>
-                <button className="btn btn-primary">
-                  Back
-                </button>
-              </Link>
+export default function RatingViewPage() {
+  const { threadId, objectId } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ratingsPerPage] = useState(10);
+  const [object, setObject] = useState({
+    objectId: 0,
+    objectName: "",
+    objectImage: "",
+    introduction: "",
+    averageRating: 0,
+    ratings: [],
+  });
+
+  useEffect(() => {
+    const getObject = async () => {
+      const object = await myFirebase.getObject(threadId, objectId);
+      setObject(object);
+    };
+    getObject();
+  }, [threadId, objectId]);
+
+  // Get current threads based on pagination
+  const indexOfLastRating = currentPage * ratingsPerPage;
+  const indexOfFirstRating = indexOfLastRating - ratingsPerPage;
+  const currentRatings = object.ratings.slice(indexOfFirstRating, indexOfLastRating);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  return (
+    <div>
+      <BaseTemplate>
+        <div>
+          <div className="m-2">
+            <Link to={`/thread/${threadId}`}>
+              <button className="btn btn-primary">
+                Back
+              </button>
+            </Link>
+          </div>
+
+          <div className="row gx-3">
+            <div className="col-md-4">
+              <div className="p-3">
+                <ObjectInfoBoard object={object} />
+              </div>
             </div>
-
-            <div className="row gx-3">
-              <div className="col-md-4">
-                <div className="p-3">
-                  <ObjectInfoBoard object={this.props.object} />
-                </div>
+            <div className="col-md-8">
+              <div className="p-3">
+                {currentRatings.map((rating, index) => (
+                  <RatingFragment key={index} rating={rating} />
+                ))}
               </div>
-              <div className="col-md-8">
-                <div className="p-3">
-                  {this.props.object.ratings.map((rating, index) => (
-                    <RatingFragment key={index} rating={rating} />
-                  ))}
-
-                </div>
-              </div>
+              <Pagination
+                itemsPerPage={ratingsPerPage}
+                totalItems={object.ratings.length}
+                paginate={paginate}
+              />
             </div>
           </div>
-        </BaseTemplate>
-      </div>
-    );
-  }
+        </div>
+      </BaseTemplate>
+    </div>
+  );
 }
-
-RatingViewPage.propTypes = {
-  currentThreadID: PropTypes.string,
-  object: PropTypes.shape({
-    objectName: PropTypes.string,
-    objectImage: PropTypes.string,
-    introduction: PropTypes.string,
-    averageRating: PropTypes.number,
-    ratings: PropTypes.array,
-  })
-};

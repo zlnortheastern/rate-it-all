@@ -9,7 +9,7 @@ import Pagination from "../fragments/Pagination";
 export default function RatingViewPage() {
   const { threadId, objectId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const [ratingsPerPage] = useState(5);
+  const [ratingsPerPage] = useState(10);
   const [object, setObject] = useState({
     objectId: 0,
     objectName: "",

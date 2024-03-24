@@ -4,9 +4,12 @@ import { Link, useParams } from "react-router-dom";
 import RatingFragment from "../components/RatingFragment";
 import ObjectInfoBoard from "../components/ObjectInfoBoard";
 import { myFirebase } from "../models/MyFirebase";
+import Pagination from "../fragments/Pagination";
 
 export default function RatingViewPage() {
-  const {threadId, objectId} = useParams();
+  const { threadId, objectId } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ratingsPerPage] = useState(5);
   const [object, setObject] = useState({
     objectId: 0,
     objectName: "",
@@ -17,12 +20,20 @@ export default function RatingViewPage() {
   });
 
   useEffect(() => {
-    const getObject = async() => {
+    const getObject = async () => {
       const object = await myFirebase.getObject(threadId, objectId);
       setObject(object);
     };
     getObject();
   }, [threadId, objectId]);
+
+  // Get current threads based on pagination
+  const indexOfLastRating = currentPage * ratingsPerPage;
+  const indexOfFirstRating = indexOfLastRating - ratingsPerPage;
+  const currentRatings = object.ratings.slice(indexOfFirstRating, indexOfLastRating);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -44,11 +55,15 @@ export default function RatingViewPage() {
             </div>
             <div className="col-md-8">
               <div className="p-3">
-                {object.ratings.map((rating, index) => (
+                {currentRatings.map((rating, index) => (
                   <RatingFragment key={index} rating={rating} />
                 ))}
-
               </div>
+              <Pagination
+                itemsPerPage={ratingsPerPage}
+                totalItems={object.ratings.length}
+                paginate={paginate}
+              />
             </div>
           </div>
         </div>

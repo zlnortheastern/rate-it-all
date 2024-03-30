@@ -47,10 +47,10 @@ export default function CategoryList({ onCategoryChange }) {
 
   return (
     <div>
-      <h5 className="text-center">Category List</h5>
+      <h5 name="Category title" className="text-center">Category List</h5>
       <ul className="list-group list-group-light">
         {categoryList.map((item, i) =>
-          <li className="list-group-item" key={i}>
+          <li className="list-group-item" key={i} name={`${item}`}>
             <input
               className="form-check-input me-1"
               type="checkbox"

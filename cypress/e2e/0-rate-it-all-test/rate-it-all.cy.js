@@ -2,7 +2,7 @@
 
 /// <reference types="cypress" />
 
-describe("Prompt storer loads properly", () => {
+describe("rate-it-all loads properly", () => {
   // Executed before each test
   beforeEach(() => {
     cy.visit("http://localhost:5173/");
@@ -43,6 +43,11 @@ describe("Prompt storer loads properly", () => {
   });
 
   it("perform login system", () => {
-
+    // Perform Login
+    // Cypress is not allowed logging in alert window so here login by setting local storage
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("username", "cypress");
+    cy.reload();
+    cy.contains("Logged in as: cypress");
   });
 });

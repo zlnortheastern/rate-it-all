@@ -14,6 +14,7 @@ export default function ThreadFragment({ thread }) {
           <Link to={`thread/${thread.id}`}>
             <img
               src={thread.threadImage}
+              name={thread.threadTitle}
               className="img-fluid img-thumbnail"
               style={{ height: 200, width: 180 }}
             />

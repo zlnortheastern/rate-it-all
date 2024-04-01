@@ -6,6 +6,7 @@ export default function HighRatingObject({object}) {
     <div className="col text-center">
       <img
         src={object.objectImage}
+        name={object.objectName}
         className="img-fluid"
         style={{ height: 150, width: 130 }}
       />

@@ -8,7 +8,7 @@ export default function ObjectForm({index, updateObject}) {
 
 
   return (
-    <div >
+    <div className={`objectform${index}`}>
       <div className="mb-3">
         <label className="form-label">Object name</label>
         <input

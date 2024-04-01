@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, updateDoc, collection, getDocs, addDoc, getDoc, } from "firebase/firestore";
+import { getFirestore, doc, updateDoc, collection, getDocs, addDoc, getDoc, deleteDoc, } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -82,6 +82,21 @@ export default function MyFirebase() {
 
     return await addDoc(threadRef, thread);
   };
+
+  me.deleteThread = async (threadId) => {
+    if (!db) {
+      console.error("Database not initialized!");
+      return;
+    }
+  
+    try {
+      const threadDocRef = doc(db, "Thread", threadId);
+      await deleteDoc(threadDocRef);
+      console.log("Thread deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting thread:", error);
+    }
+  }
 
   me.updateRating = async (threadId, objectId, newRating) => {
     if (!db) {

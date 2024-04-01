@@ -33,7 +33,7 @@ export default function ObjectFragment({ objectId, object }) {
         <div className="col-md-3 border-end text-center">
           <div className="card-body">
             <h5 className="card-title fw-bold">{object.objectName}</h5>
-            <h5><FaStar color="#FFC107" size={16} />  {object.averageRating.toFixed(1)}</h5>
+            <h5 name={`objectrating${objectId}`}><FaStar color="#FFC107" size={16} />  {object.averageRating.toFixed(1)}</h5>
           </div>
         </div>
         <div className="col-md-4 border-end p-1">

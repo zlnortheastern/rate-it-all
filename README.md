@@ -1,29 +1,18 @@
-## Project: Rate It All
+## Branch: Rate It All - Cypress test
 
 Author: Zhi Ling
 
-Project Description: This project is a [React](https://react.dev/) [vite](https://vitejs.dev/) web application project based on [Node.js](https://nodejs.org/en). The application provides a platform for the user to freely create threads by any topic and ratable objects related to the topic. The advantage of the application is that the user can initiate topics in any domain and the objects that can be evaluated are flexible, thus increasing the user's freedom and personalization.
+Branch Description: This branch is a Cypress test branch for the [main](https://github.com/zlnortheastern/rate-it-all) branch.
 
-#### **Updated in 3/24/2024 by using Functional Programming:**
+**Here is the video for demo.**
 
-**Here is the updated** [**Design Document**](https://drive.google.com/file/d/1rKx5U-5cW1wtS9vul6gs8zOZjtuEYkFo/view?usp=sharing).
+### Test setup
 
-**Here is the** [**video**](https://youtu.be/rkc9h-l9js8) **for second demo.**
-
----
-
-#### **First submission in 2/19/2024 by using OOP:**
-
-**Here is the** [**Design Document**](https://drive.google.com/file/d/1dwPvb9lixNTBZk9oatNxbp8Cbo31AinY/view?usp=sharing).
-
-**Here is the** [**video**](https://youtu.be/uLnY1ufPtuY) **for first demo.**
-
-### Project setup
-
-You can direcly view the page by [Firebase deploy](https://rate-it-all-ed671.web.app/) OR you can colone this repository by:
+Clone this branch by:
 
 ```plaintext
-https://github.com/zlnortheastern/rate-it-all.git
+git clone https://github.com/zlnortheastern/rate-it-all.git
+git checkout cypress-test
 ```
 
 Make sure you have installed [Node.js](https://nodejs.org/en).
@@ -31,35 +20,48 @@ Make sure you have installed [Node.js](https://nodejs.org/en).
 Then install packages:
 
 ```plaintext
-npm install --save-dev prettier eslint-config-prettier eslint-plugin-react
+npm install
 ```
 
-These are packages I used in this project:
-
-```plaintext
-npm install -g vite
-```
-
-```plaintext
-npm install react-router-dom
-```
-
-```plaintext
-npm install firebase
-```
-
-```plaintext
-npm install react-icons
-```
-
-```plaintext
-npm install prop-types
-```
-
-To run the application locally:
+Run the application locally:
 
 ```plaintext
 npm run dev
 ```
 
 Then you can visit [http://localhost:5173/](http://localhost:5173/).
+
+You can start Cypress test by:
+
+```plaintext
+npx cypress open
+```
+
+Choose E2E Testing, start it in any browser, then click on rate-it-all.cy.js to start it.
+
+### Test Cases
+
+1.  Home page basic frame test
+    1.  Test navbar buttons
+    2.  Test footer text
+    3.  Test category list
+    4.  Test login system
+2.  Create a new thread
+    1.  Navigate to create page
+    2.  Fill the thread form and submit
+3.  Find the thread
+    1.  Test filting thread list by category
+    2.  Navigate to thread page
+    3.  Check thread information
+4.  Perform rating an object
+    1.  Navigate to rating page
+    2.  Submit a 10 score rating
+    3.  Submit a 2 score rating
+    4.  Check the average rating
+5.  Perform rating view page
+    1.  Navigate to view page
+    2.  Check object information
+    3.  Check ratings including username and comment
+6.  Test clearup
+    1.  Delete the thread
+    2.  Check if thread deleted successfully

@@ -4,7 +4,7 @@ Author: Zhi Ling
 
 Branch Description: This branch is a Cypress test branch for the [main](https://github.com/zlnortheastern/rate-it-all) branch.
 
-**Here is the video for demo.**
+**Here is the** [**video**](https://youtu.be/L4Rsxgnp4Go) **for demo.**
 
 ### Test setup
 

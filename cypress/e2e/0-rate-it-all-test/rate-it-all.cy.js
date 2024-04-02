@@ -120,32 +120,30 @@ describe("rate-it-all loads properly", () => {
       cy.get(`li[name="${thread.threadTag}"] input`).check();
 
       // find the target thread
-      cy.get(".pagination").children().its("length").then(numPage => {
-        cy.contains(thread.threadTitle).should("exist");
-        cy.contains(thread.threadDescription).should("exist");
-        thread.objects.slice(0, 3).map((object) => {
-          cy.get(`img[name="${object.objectName}"]`).should("have.attr", "src", object.objectImage);
-        });
-        cy.get(`img[name="${thread.threadTitle}"]`).should("have.attr", "src", thread.threadImage).click();
-        cy.url().then(url => {
-          currentPage = url;
-        });
+      cy.contains(thread.threadTitle).should("exist");
+      cy.contains(thread.threadDescription).should("exist");
+      thread.objects.slice(0, 3).map((object) => {
+        cy.get(`img[name="${object.objectName}"]`).should("have.attr", "src", object.objectImage);
       });
+      cy.get(`img[name="${thread.threadTitle}"]`).should("have.attr", "src", thread.threadImage).click();
+      cy.url().then(url => {
+        currentPage = url;
+      });
+    });
 
-      it("verify thread information", () => {
-        cy.contains(thread.threadTitle).should("exist");
-        cy.contains(thread.threadDescription).should("exist");
-        cy.get('img[src="' + thread.threadImage + '"]').should("exist");
-        // verify image here
-        thread.objects.map((object, i) => {
-          cy.contains(object.objectName).should("exist");
-          cy.contains(object.introduction).should("exist");
-          cy.get('img[src="' + object.objectImage + '"]').should("exist");
-          //cy.get(`h5[name="objectrating${i}"]`).contains("0.0");
-          cy.get(`button[name="rateobject${i}"]`).should("exist");
-          cy.get(`button[name="viewobject${i}"]`).should("exist");
-        })
-      });
+    it("verify thread information", () => {
+      cy.contains(thread.threadTitle).should("exist");
+      cy.contains(thread.threadDescription).should("exist");
+      cy.get('img[src="' + thread.threadImage + '"]').should("exist");
+      // verify image here
+      thread.objects.map((object, i) => {
+        cy.contains(object.objectName).should("exist");
+        cy.contains(object.introduction).should("exist");
+        cy.get('img[src="' + object.objectImage + '"]').should("exist");
+        //cy.get(`h5[name="objectrating${i}"]`).contains("0.0");
+        cy.get(`button[name="rateobject${i}"]`).should("exist");
+        cy.get(`button[name="viewobject${i}"]`).should("exist");
+      })
     });
   });
 

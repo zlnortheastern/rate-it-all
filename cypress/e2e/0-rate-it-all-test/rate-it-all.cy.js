@@ -106,6 +106,7 @@ describe("rate-it-all loads properly", () => {
     });
   });
 
+
   context("find a thread", () => {
     beforeEach(() => {
       cy.visit(currentPage);
@@ -132,8 +133,8 @@ describe("rate-it-all loads properly", () => {
       });
 
       it("verify thread information", () => {
-        cy.contains(thread.threadTitle);
-        cy.contains(thread.threadDescription);
+        cy.contains(thread.threadTitle).should("exist");
+        cy.contains(thread.threadDescription).should("exist");
         cy.get('img[src="' + thread.threadImage + '"]').should("exist");
         // verify image here
         thread.objects.map((object, i) => {
@@ -146,117 +147,117 @@ describe("rate-it-all loads properly", () => {
         })
       });
     });
+  });
 
-    context("perform rating an object", () => {
-      beforeEach(() => {
-        cy.visit(currentPage);
-        // login before rating an object
-        performLogin(currentUser);
-        cy.wait(1000);
-      });
+  context("perform rating an object", () => {
+    beforeEach(() => {
+      cy.visit(currentPage);
+      // login before rating an object
+      performLogin(currentUser);
+      cy.wait(1000);
+    });
 
-      it("go into rating page", () => {
-        // Click redirecting button
-        cy.get(`button[name="rateobject0"]`).click();
+    it("go into rating page", () => {
+      // Click redirecting button
+      cy.get(`button[name="rateobject0"]`).click();
 
-        // verify basic rating page components
-        cy.get("legend").should("have.text", "Rate it");
-        cy.get("label[for='ratingComment']").should("have.text", "Comment");
-        cy.url().then(url => {
-          currentPage = url;
-        });
-      });
-
-      it("submit a 10 rating", () => {
-        cy.get("svg[name='star4']").click();
-        cy.get("textarea[name='comment']").type("This is a Cypress test rating 1.");
-        cy.contains("Submit").click();
-        cy.wait(1000);
-        cy.url().then(url => {
-          currentPage = url;
-        });
-        // Change another user to add another rating
-        currentUser = "Cypress0";
-      });
-
-      it("verify average rating 1st time", () => {
-        cy.get("h5[name='objectrating0']").contains("10.0");
-      });
-
-      it("submit a 2 rating", () => {
-        cy.get(`button[name="rateobject0"]`).click();
-        cy.get("svg[name='star0']").click();
-        cy.get("textarea[name='comment']").type("This is a Cypress test rating 2.");
-        cy.contains("Submit").click();
-        cy.wait(1000);
-        cy.url().then(url => {
-          currentPage = url;
-        });
-      });
-
-      it("verify average rating 2nd time", () => {
-        cy.get("h5[name='objectrating0']").contains("6.0");
+      // verify basic rating page components
+      cy.get("legend").should("have.text", "Rate it");
+      cy.get("label[for='ratingComment']").should("have.text", "Comment");
+      cy.url().then(url => {
+        currentPage = url;
       });
     });
 
-    context("perform rating view page", () => {
-      beforeEach(() => {
-        cy.visit(currentPage);
-        cy.wait(1000);
+    it("submit a 10 rating", () => {
+      cy.get("svg[name='star4']").click();
+      cy.get("textarea[name='comment']").type("This is a Cypress test rating 1.");
+      cy.contains("Submit").click();
+      cy.wait(1000);
+      cy.url().then(url => {
+        currentPage = url;
       });
+      // Change another user to add another rating
+      currentUser = "Cypress0";
+    });
 
-      it("go into view page", () => {
-        cy.get(`button[name="viewobject0"]`).click();
-        cy.url().then(url => {
-          currentPage = url;
-        });
-      });
+    it("verify average rating 1st time", () => {
+      cy.get("h5[name='objectrating0']").contains("10.0");
+    });
 
-      it("verify object info", () => {
-        cy.contains(thread.objects[0].objectName).should("exist");
-        cy.contains(thread.objects[0].introduction).should("exist");
-        cy.get('img[src="' + thread.objects[0].objectImage + '"]').should("exist");
-      });
-
-      it("verify ratings", () => {
-        cy.get(".card-header").contains("Cypress").should("exist");
-        cy.get(".card-text").contains("This is a Cypress test rating 1.").should("exist");
-        cy.get(".card-header").contains("Cypress0").should("exist");
-        cy.get(".card-text").contains("This is a Cypress test rating 2.").should("exist");
-      });
-
-      it("go back", () => {
-        cy.contains("Back").click();
-        cy.wait(100);
-        cy.url().then(url => {
-          currentPage = url;
-        });
+    it("submit a 2 rating", () => {
+      cy.get(`button[name="rateobject0"]`).click();
+      cy.get("svg[name='star0']").click();
+      cy.get("textarea[name='comment']").type("This is a Cypress test rating 2.");
+      cy.contains("Submit").click();
+      cy.wait(1000);
+      cy.url().then(url => {
+        currentPage = url;
       });
     });
 
-    // Delete the created thread to make sure we test more than once
-    context("test clearup", () => {
-      beforeEach(() => {
-        cy.visit(currentPage);
-        cy.wait(1000);
-      });
+    it("verify average rating 2nd time", () => {
+      cy.get("h5[name='objectrating0']").contains("6.0");
+    });
+  });
 
-      it("delete created thread", () => {
-        cy.contains("Delete").click();
-        cy.wait(1000);
-        cy.url().then(url => {
-          currentPage = url;
-        });
-      });
+  context("perform rating view page", () => {
+    beforeEach(() => {
+      cy.visit(currentPage);
+      cy.wait(1000);
+    });
 
-      // Test if there exists the thread
-      it("check if thread deleted", () => {
-        cy.get(".pagination").children().its("length").then(numPage => {
-          for (let i = 1; i <= numPage; i++) {
-            cy.get(".page-link").contains(i.toString()).click();
-            cy.contains(thread.threadTitle).should("not.exist");
-          }
-        });
+    it("go into view page", () => {
+      cy.get(`button[name="viewobject0"]`).click();
+      cy.url().then(url => {
+        currentPage = url;
+      });
+    });
+
+    it("verify object info", () => {
+      cy.contains(thread.objects[0].objectName).should("exist");
+      cy.contains(thread.objects[0].introduction).should("exist");
+      cy.get('img[src="' + thread.objects[0].objectImage + '"]').should("exist");
+    });
+
+    it("verify ratings", () => {
+      cy.get(".card-header").contains("Cypress").should("exist");
+      cy.get(".card-text").contains("This is a Cypress test rating 1.").should("exist");
+      cy.get(".card-header").contains("Cypress0").should("exist");
+      cy.get(".card-text").contains("This is a Cypress test rating 2.").should("exist");
+    });
+
+    it("go back", () => {
+      cy.contains("Back").click();
+      cy.wait(100);
+      cy.url().then(url => {
+        currentPage = url;
+      });
+    });
+  });
+
+  // Delete the created thread to make sure we test more than once
+  context("test clearup", () => {
+    beforeEach(() => {
+      cy.visit(currentPage);
+      cy.wait(1000);
+    });
+
+    it("delete created thread", () => {
+      cy.contains("Delete").click();
+      cy.wait(1000);
+      cy.url().then(url => {
+        currentPage = url;
+      });
+    });
+
+    // Test if there exists the thread
+    it("check if thread deleted", () => {
+      cy.get(".pagination").children().its("length").then(numPage => {
+        for (let i = 1; i <= numPage; i++) {
+          cy.get(".page-link").contains(i.toString()).click();
+          cy.contains(thread.threadTitle).should("not.exist");
+        }
       });
     });
   });

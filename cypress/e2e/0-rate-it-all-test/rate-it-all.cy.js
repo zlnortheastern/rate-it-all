@@ -2,8 +2,6 @@
 
 /// <reference types="cypress" />
 
-import { object } from "prop-types";
-
 // global variable thread used to test app
 const thread = {
   threadTitle: "Test thread created by Cypress",
@@ -26,6 +24,7 @@ const thread = {
 }
 
 let currentPage = "http://localhost:5173/";
+let currentUser = "Cypress"
 
 describe("rate-it-all loads properly", () => {
 
@@ -71,48 +70,53 @@ describe("rate-it-all loads properly", () => {
 
     it("perform login system", () => {
       // Perform Login
-      performLogin();
-      cy.contains("Logged in as: cypress");
+      performLogin("Cypress");
+      cy.contains("Logged in as: Cypress").should("exist");
     });
 
   });
-  // context("create a thread", () => {
-  //   beforeEach(() => {
-  //     cy.visit("http://localhost:5173/");
-  //     performLogin();
-  //     cy.get("#root > div > div > nav").contains("Create").click();
-  //   });
 
-  //   it("fill thread form", () => {
-  //     cy.get("form input[name='threadTitle']").type(thread.threadTitle);
-  //     cy.get("form select[name='threadTag']").select(thread.threadTag);
-  //     cy.get("form input[name='threadImage']").type(thread.threadImage);
-  //     cy.get("form textarea[name='threadDescription']").type(thread.threadDescription);
-
-  //     thread.objects.map((object, i) => {
-  //       if(i != 0){
-  //         cy.contains("New Object").click();
-  //       }
-  //       cy.get(`.objectform${i} input[name="objectName"]`).type(object.objectName);
-  //       cy.get(`.objectform${i} input[name="objectImage"]`).type(object.objectImage);
-  //       cy.get(`.objectform${i} textarea[name="introduction"]`).type(object.introduction);
-  //     });
-
-  //     cy.contains("Submit").click();
-  //   });
-  // });
-
-  context("find a thread", () => {
-    // Wait for page loading
+  context("create a thread", () => {
     beforeEach(() => {
       cy.visit(currentPage);
+      // login before creating a thread
+      performLogin("Cypress");
+      cy.get("#root > div > div > nav").contains("Create").click();
+    });
+
+    // Enter thread object data into form
+    it("fill thread form", () => {
+      cy.get("form input[name='threadTitle']").type(thread.threadTitle);
+      cy.get("form select[name='threadTag']").select(thread.threadTag);
+      cy.get("form input[name='threadImage']").type(thread.threadImage);
+      cy.get("form textarea[name='threadDescription']").type(thread.threadDescription);
+
+      thread.objects.map((object, i) => {
+        if(i != 0){
+          cy.contains("New Object").click();
+        }
+        cy.get(`.objectform${i} input[name="objectName"]`).type(object.objectName);
+        cy.get(`.objectform${i} input[name="objectImage"]`).type(object.objectImage);
+        cy.get(`.objectform${i} textarea[name="introduction"]`).type(object.introduction);
+      });
+
+      // Submit the form
+      cy.contains("Submit").click();
+      cy.wait(1000);
+    });
+  });
+
+  context("find a thread", () => {
+    beforeEach(() => {
+      cy.visit(currentPage);
+      // Wait to make sure whole page is loaded
       cy.wait(2000);
     });
 
     it("find by category", () => {
       cy.get(`li[name="${thread.threadTag}"] input`).check();
-      cy.contains(thread.threadTitle);
-      cy.contains(thread.threadDescription);
+      cy.contains(thread.threadTitle).should("exist");
+      cy.contains(thread.threadDescription).should("exist");
       thread.objects.slice(0, 3).map((object) => {
         cy.get(`img[name="${object.objectName}"]`).should("have.attr", "src", object.objectImage);
       });
@@ -123,32 +127,125 @@ describe("rate-it-all loads properly", () => {
       cy.log(currentPage);
     });
 
-    context("perform thread page", () => {
-      beforeEach(() => {
-        cy.visit(currentPage);
-        cy.wait(1000);
+    it("verify thread information", () => {
+      cy.contains(thread.threadTitle);
+      cy.contains(thread.threadDescription);
+      cy.get('img[src="' + thread.threadImage + '"]').should("exist");
+      // verify image here
+      thread.objects.map((object, i) => {
+        cy.contains(object.objectName).should("exist");
+        cy.contains(object.introduction).should("exist");
+        cy.get('img[src="' + object.objectImage + '"]').should("exist");
+        //cy.get(`h5[name="objectrating${i}"]`).contains("0.0");
+        cy.get(`button[name="rateobject${i}"]`).should("exist");
+        cy.get(`button[name="viewobject${i}"]`).should("exist");
+      })
+    });
+  });
+
+  context("perform rating an object", () => {
+    beforeEach(() => {
+      cy.visit(currentPage);
+      // login before rating an object
+      performLogin(currentUser);
+      cy.wait(1000);
+    });
+
+    it("go into rating page", () => {
+      // Click redirecting button
+      cy.get(`button[name="rateobject0"]`).click();
+
+      // verify basic rating page components
+      cy.get("legend").should("have.text", "Rate it");
+      cy.get("label[for='ratingComment']").should("have.text", "Comment");
+      cy.url().then(url => {
+        currentPage = url;
       });
-  
-      it("verify thread information", () => {
-        cy.contains(thread.threadTitle);
-        cy.contains(thread.threadDescription);
-        cy.get('img[src="' + thread.threadImage + '"]').should('exist');
-        // verify image here
-        thread.objects.map((object, i) => {
-          cy.contains(object.objectName);
-          cy.contains(object.introduction);
-          cy.get('img[src="' + object.objectImage + '"]').should('exist');
-          cy.get(`h5[name="objectrating${i}"]`).contains("0.0");
-        })
+    });
+
+    it("submit a 10 rating", () => {
+      cy.get("svg[name='star4']").click();
+      cy.get("textarea[name='comment']").type("This is a Cypress test rating 1.");
+      cy.contains("Submit").click();
+      cy.wait(1000);
+      cy.url().then(url => {
+        currentPage = url;
+      });
+      // Change another user to add another rating
+      currentUser = "Cypress0";
+    });
+
+    it("verify average rating 1st time", () => {
+      cy.get("h5[name='objectrating0']").contains("10.0");
+    });
+
+    it("submit a 2 rating", () => {
+      cy.get(`button[name="rateobject0"]`).click();
+      cy.get("svg[name='star0']").click();
+      cy.get("textarea[name='comment']").type("This is a Cypress test rating 2.");
+      cy.contains("Submit").click();
+      cy.wait(1000);
+      cy.url().then(url => {
+        currentPage = url;
+      });
+    });
+
+    it("verify average rating 2nd time", () => {
+      cy.get("h5[name='objectrating0']").contains("6.0");
+    });
+  });
+
+  context("perform rating view page", () => {
+    beforeEach(() => {
+      cy.visit(currentPage);
+      cy.wait(1000);
+    });
+
+    it("go into view page", () => {
+      cy.get(`button[name="viewobject0"]`).click();
+      cy.url().then(url => {
+        currentPage = url;
+      });
+    });
+
+    it("verify object info", () => {
+      cy.contains(thread.objects[0].objectName).should("exist");
+      cy.contains(thread.objects[0].introduction).should("exist");
+      cy.get('img[src="' + thread.objects[0].objectImage + '"]').should("exist");
+    });
+
+    it("verify ratings", () => {
+      cy.get(".card-header").contains("Cypress").should("exist");
+      cy.get(".card-text").contains("This is a Cypress test rating 1.").should("exist");
+      cy.get(".card-header").contains("Cypress0").should("exist");
+      cy.get(".card-text").contains("This is a Cypress test rating 2.").should("exist");
+    });
+
+    it("go back", () => {
+      cy.contains("Back").click();
+      cy.wait(100);
+      cy.url().then(url => {
+        currentPage = url;
       });
     });
   });
 
+  // Delete the created thread to make sure we test more than once
+  context("test clearup", () => {
+    beforeEach(() => {
+      cy.visit(currentPage);
+      cy.wait(1000);
+    });
+
+    it("delete created thread", () => {
+      cy.contains("Delete").click();
+    });
+  });
 });
 
 // Cypress is not allowed logging in alert window so here login by setting local storage
-function performLogin() {
+function performLogin(username) {
   localStorage.setItem("isLoggedIn", "true");
-  localStorage.setItem("username", "cypress");
+  localStorage.setItem("username", username);
   cy.reload();
 }

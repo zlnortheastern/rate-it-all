@@ -43,8 +43,8 @@ export default function ObjectFragment({ objectId, object }) {
         </div>
         <div className="col-md-2">
           <div className="row p-2 m-3">
-            <button className="btn btn-info m-2" onClick={handleViewClick}>View</button>
-            <button className="btn btn-warning m-2" onClick={handleRateClick}>Rate</button>
+            <button className="btn btn-info m-2" name={`viewobject${objectId}`} onClick={handleViewClick}>View</button>
+            <button className="btn btn-warning m-2" name={`rateobject${objectId}`} onClick={handleRateClick}>Rate</button>
           </div>
         </div>
       </div>

@@ -25,7 +25,7 @@ export default function RatingForm ({onCreateRating}) {
             const starValue = i + 1;
             return (
               <label key={i}>
-                <FaStar color={starValue <= rating ? "#FFC107" : "E4E5E9"} size={30} />
+                <FaStar name={`star${i}`} color={starValue <= rating ? "#FFC107" : "E4E5E9"} size={30} />
                 <input type="radio"
                   className="invisible"
                   name="rating"
@@ -36,7 +36,7 @@ export default function RatingForm ({onCreateRating}) {
           })}
         </div>
         <div className="mb-3">
-          <label htmlFor="threadDescription" className="form-label">Comment</label>
+          <label htmlFor="ratingComment" className="form-label">Comment</label>
           <textarea className="form-control" name="comment" rows="3" ref={commentRef}/>
         </div>
         <button type="submit" className="btn btn-warning">

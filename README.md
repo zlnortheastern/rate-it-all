@@ -1,5 +1,6 @@
 ## Project: Rate It All
 
+
 Author: Zhi Ling
 
 Project Description: This project is a [React](https://react.dev/) [vite](https://vitejs.dev/) web application project based on [Node.js](https://nodejs.org/en). The application provides a platform for the user to freely create threads by any topic and ratable objects related to the topic. The advantage of the application is that the user can initiate topics in any domain and the objects that can be evaluated are flexible, thus increasing the user's freedom and personalization.
